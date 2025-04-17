@@ -28,12 +28,11 @@ const artistRequestSchema = new mongoose.Schema({
   },
   bio: {
     type: String,
-    required: false,
-    trim: true
+    required: [true, 'Vui lòng cung cấp tiểu sử ngắn']
   },
-  avatarUrl: {
+  profileImageUrl: {
     type: String,
-    required: [true, 'Avatar is required']
+    required: [true, 'Vui lòng cung cấp ảnh đại diện']
   },
   status: {
     type: String,

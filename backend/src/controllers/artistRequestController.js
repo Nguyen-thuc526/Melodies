@@ -29,7 +29,7 @@ exports.createArtistRequest = async (req, res) => {
     }
 
     // Upload ảnh lên Cloudinary
-    let avatarUrl;
+    let profileImageUrl;
     try {
       // Log để debug
       console.log('File info before upload:', {
@@ -39,7 +39,7 @@ exports.createArtistRequest = async (req, res) => {
       });
 
       const result = await cloudinary.uploader.upload(req.file.path, {
-        folder: 'artist_avatars',
+        folder: 'profile_images',
         width: 400,
         height: 400,
         crop: 'fill',
@@ -48,7 +48,7 @@ exports.createArtistRequest = async (req, res) => {
 
       console.log('Cloudinary upload result:', result);
       
-      avatarUrl = result.secure_url;
+      profileImageUrl = result.secure_url;
       
       // Xóa file tạm sau khi upload thành công
       fs.unlink(req.file.path, (err) => {
@@ -73,7 +73,7 @@ exports.createArtistRequest = async (req, res) => {
       email,
       phone,
       bio,
-      avatarUrl
+      profileImageUrl
     });
 
     await artistRequest.save();
@@ -227,18 +227,18 @@ exports.updateArtistRequest = async (req, res) => {
     }
 
     // Xử lý upload ảnh mới (nếu có)
-    let avatarUrl = existingRequest.avatarUrl;
+    let profileImageUrl = existingRequest.profileImageUrl;
     if (req.file) {
       try {
         const result = await cloudinary.uploader.upload(req.file.path, {
-          folder: 'artist_avatars',
+          folder: 'profile_images',
           width: 400,
           height: 400,
           crop: 'fill',
           quality: 'auto'
         });
         
-        avatarUrl = result.secure_url;
+        profileImageUrl = result.secure_url;
         
         // Xóa file tạm sau khi upload thành công
         fs.unlink(req.file.path, (err) => {
@@ -261,7 +261,7 @@ exports.updateArtistRequest = async (req, res) => {
         email,
         phone,
         bio,
-        avatarUrl,
+        profileImageUrl,
         status: 'pending', // Reset status về pending
         updatedAt: Date.now()
       },

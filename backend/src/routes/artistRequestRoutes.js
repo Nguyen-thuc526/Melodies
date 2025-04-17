@@ -23,7 +23,7 @@ const upload = multer({
 
 // Middleware xử lý upload đơn giản hóa
 const handleUpload = (req, res, next) => {
-  upload.single('avatar')(req, res, function(err) {
+  upload.single('profileImage')(req, res, function(err) {
     // Log để debug
     console.log('Request Headers:', req.headers);
     console.log('Content Type:', req.get('content-type'));
@@ -62,6 +62,6 @@ router.post('/', protect, handleUpload, createArtistRequest);
 router.get('/', protect, authorize('admin'), getAllRequests);
 router.patch('/:requestId', protect, authorize('admin'), updateRequestStatus);
 router.get('/me', protect, getUserRequest);
-router.put('/:requestId', protect, upload.single('avatar'), updateArtistRequest);
+router.put('/:requestId', protect, upload.single('profileImage'), updateArtistRequest);
 
 module.exports = router; 
