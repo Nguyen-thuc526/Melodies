@@ -230,11 +230,11 @@ exports.updateArtistRequest = async (req, res) => {
       });
     }
 
-    // Chỉ cho phép cập nhật nếu request đã bị từ chối
-    if (existingRequest.status !== 'rejected') {
+    // Chỉ cho phép cập nhật nếu request đang ở trạng thái pending
+    if (existingRequest.status !== 'pending') {
       return res.status(400).json({
         success: false,
-        message: 'Chỉ có thể cập nhật yêu cầu đã bị từ chối'
+        message: 'Chỉ có thể cập nhật yêu cầu đang chờ duyệt'
       });
     }
 
@@ -282,7 +282,6 @@ exports.updateArtistRequest = async (req, res) => {
         phone,
         bio,
         profileImageUrl,
-        status: 'pending', // Reset status về pending
         updatedAt: Date.now()
       },
       { new: true, runValidators: true }
@@ -290,14 +289,13 @@ exports.updateArtistRequest = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: 'Cập nhật yêu cầu thành công! Yêu cầu của bạn đang được xem xét lại.',
+      message: 'Cập nhật yêu cầu thành công!',
       data: updatedRequest
     });
 
   } catch (error) {
     console.error('Error in updateArtistRequest:', error);
     
-    // Handle validation errors
     if (error.name === 'ValidationError') {
       const messages = Object.values(error.errors).map(err => err.message);
       return res.status(400).json({
