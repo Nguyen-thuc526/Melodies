@@ -1,6 +1,7 @@
 const Song = require('../models/Song');
 const cloudinary = require('../config/cloudinary');
 const fs = require('fs');
+const User = require('../models/User');
 
 // Upload file to Cloudinary
 const uploadToCloudinary = async (file, options = {}) => {
@@ -404,4 +405,126 @@ exports.getTrendingSongs = async (req, res) => {
             message: error.message
         });
     }
+};
+
+// API tìm kiếm nhạc
+exports.searchSongs = async (req, res) => {
+  try {
+    const { title, artist, genre, page = 1, limit = 10 } = req.query;
+    
+    console.log('Search params:', { title, artist, genre, page, limit });
+    
+    // Xây dựng query dựa trên các tiêu chí tìm kiếm
+    let query = {};
+    
+    // Tìm theo tên bài hát (không phân biệt hoa thường và dấu)
+    if (title) {
+      query.title = { 
+        $regex: title, 
+        $options: 'i'
+      };
+    }
+    
+    // Tìm theo nghệ sĩ
+    if (artist) {
+      // Đầu tiên tìm các user có stageName match với từ khóa
+      const artists = await User.find({
+        stageName: { $regex: artist, $options: 'i' }
+      }).select('_id');
+      
+      // Thêm điều kiện tìm bài hát của các nghệ sĩ này
+      if (artists.length > 0) {
+        query.artist = { $in: artists.map(a => a._id) };
+      } else {
+        // Nếu không tìm thấy nghệ sĩ nào, trả về mảng rỗng luôn
+        return res.status(200).json({
+          success: true,
+          message: 'Tìm kiếm thành công',
+          data: {
+            songs: [],
+            pagination: {
+              currentPage: parseInt(page),
+              totalPages: 0,
+              totalItems: 0,
+              hasNext: false,
+              hasPrev: false,
+              limit: parseInt(limit)
+            }
+          }
+        });
+      }
+    }
+    
+    // Tìm theo thể loại
+    if (genre) {
+      if (Array.isArray(genre)) {
+        query.genre = { $in: genre };
+      } else {
+        query.genre = { 
+          $regex: genre, 
+          $options: 'i'
+        };
+      }
+    }
+
+    console.log('Final query:', JSON.stringify(query, null, 2));
+
+    // Tính toán số lượng bản ghi cần bỏ qua cho phân trang
+    const skip = (page - 1) * limit;
+
+    // Thực hiện tìm kiếm với phân trang
+    const songs = await Song.find(query)
+      .populate('artist', 'username stageName avatar')
+      .select('title artist genre duration releaseDate coverImageUrl plays likes comments')
+      .skip(skip)
+      .limit(parseInt(limit))
+      .sort({ releaseDate: -1 });
+
+    // Đếm tổng số kết quả
+    const total = await Song.countDocuments(query);
+
+    console.log(`Found ${songs.length} songs`);
+
+    res.status(200).json({
+      success: true,
+      message: 'Tìm kiếm thành công',
+      data: {
+        songs,
+        pagination: {
+          currentPage: parseInt(page),
+          totalPages: Math.ceil(total / limit),
+          totalItems: total,
+          hasNext: page < Math.ceil(total / limit),
+          hasPrev: page > 1,
+          limit: parseInt(limit)
+        }
+      }
+    });
+
+  } catch (error) {
+    console.error('Error in searchSongs:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Đã có lỗi xảy ra khi tìm kiếm bài hát'
+    });
+  }
+};
+
+// API lấy danh sách thể loại nhạc
+exports.getGenres = async (req, res) => {
+  try {
+    // Lấy danh sách unique genres từ tất cả các bài hát
+    const genres = await Song.distinct('genre');
+    
+    res.status(200).json({
+      success: true,
+      data: genres
+    });
+  } catch (error) {
+    console.error('Error in getGenres:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Đã có lỗi xảy ra khi lấy danh sách thể loại'
+    });
+  }
 };

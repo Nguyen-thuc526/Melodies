@@ -154,22 +154,20 @@ exports.updateRequestStatus = async (req, res) => {
       });
     }
 
-    // Nếu request được approved, cập nhật role của user thành 'artist'
+    // Nếu request được approved, cập nhật role và stageName của user
     if (status === 'approved') {
       try {
         const user = await User.findById(request.userId);
         if (user) {
           user.role = 'artist';
+          user.stageName = request.stageName; // Cập nhật stageName từ request
           await user.save();
-          console.log(`User ${user._id} role updated to artist.`);
+          console.log(`User ${user._id} updated to artist with stageName: ${request.stageName}`);
         } else {
-          // Ghi log hoặc xử lý trường hợp user không tìm thấy (dù ít khả năng xảy ra)
           console.error(`User not found for approved request: ${requestId}`);
         }
       } catch (userUpdateError) {
-        console.error(`Error updating user role for request ${requestId}:`, userUpdateError);
-        // Không chặn response chính, nhưng ghi lại lỗi
-        // Có thể xem xét trả về một thông báo lỗi khác nếu việc cập nhật user là cực kỳ quan trọng
+        console.error(`Error updating user for request ${requestId}:`, userUpdateError);
       }
     }
 

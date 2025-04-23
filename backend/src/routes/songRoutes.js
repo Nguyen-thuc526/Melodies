@@ -12,6 +12,8 @@ const {
     toggleLike,
     addComment,
     getTrendingSongs,
+    searchSongs,
+    getGenres,
 } = require('../controllers/songController');
 
 // Cấu hình multer cho upload song
@@ -60,8 +62,10 @@ const uploadFields = upload.fields([
 ]);
 
 // Public routes
-router.get('/', getAllSongs);
+router.get('/search', searchSongs);
+router.get('/genres', getGenres);
 router.get('/trending', getTrendingSongs);
+router.get('/', getAllSongs);
 router.get('/:id', getSong);
 
 // Protected routes
