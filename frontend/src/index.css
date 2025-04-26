@@ -1,0 +1,147 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import 'antd/dist/reset.css';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family:
+        -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.ant-layout {
+    background: #f0f2f5;
+}
+
+.ant-card {
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.ant-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.ant-btn {
+    border-radius: 6px;
+}
+
+.ant-input-affix-wrapper {
+    border-radius: 6px;
+}
+
+.ant-input {
+    border-radius: 6px;
+}
+
+/* Override Ant Design input styles */
+.ant-input,
+.ant-input-password,
+.ant-input-affix-wrapper {
+  color: white !important;
+  background-color: rgba(91, 73, 89, 0.7) !important;
+}
+
+.ant-input input,
+.ant-input-password input {
+  color: white !important;
+  background-color: rgba(91, 73, 89, 0.7) !important;
+}
+
+.ant-input::placeholder,
+.ant-input-password::placeholder,
+.ant-input input::placeholder,
+.ant-input-password input::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.ant-input:hover,
+.ant-input:focus,
+.ant-input-password:hover,
+.ant-input-password:focus,
+.ant-input-affix-wrapper:hover,
+.ant-input-affix-wrapper:focus {
+  background-color: rgba(91, 73, 89, 0.7) !important;
+}
+
+.ant-input input:hover,
+.ant-input input:focus,
+.ant-input-password input:hover,
+.ant-input-password input:focus {
+  background-color: rgba(91, 73, 89, 0.7) !important;
+}
+
+/* Override autocomplete styles */
+.ant-input:-webkit-autofill,
+.ant-input:-webkit-autofill:hover,
+.ant-input:-webkit-autofill:focus,
+.ant-input-password:-webkit-autofill,
+.ant-input-password:-webkit-autofill:hover,
+.ant-input-password:-webkit-autofill:focus {
+  -webkit-text-fill-color: white !important;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(91, 73, 89, 0.7) inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.ant-input input:-webkit-autofill,
+.ant-input input:-webkit-autofill:hover,
+.ant-input input:-webkit-autofill:focus,
+.ant-input-password input:-webkit-autofill,
+.ant-input-password input:-webkit-autofill:hover,
+.ant-input-password input:-webkit-autofill:focus {
+  -webkit-text-fill-color: white !important;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(91, 73, 89, 0.7) inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Override Formik input styles */
+.formik-field input {
+  color: white !important;
+  background-color: rgba(91, 73, 89, 0.7) !important;
+}
+
+.formik-field input::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.formik-field input:hover,
+.formik-field input:focus {
+  background-color: rgba(91, 73, 89, 0.7) !important;
+}
+
+/* Custom input styles */
+.custom-input {
+  color: white !important;
+  background-color: rgba(91, 73, 89, 0.7) !important;
+}
+
+.custom-input input {
+  color: white !important;
+  background-color: rgba(91, 73, 89, 0.7) !important;
+}
+
+.custom-input input::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.custom-input:hover,
+.custom-input:focus,
+.custom-input:focus-within {
+  background-color: rgba(91, 73, 89, 0.7) !important;
+}
+
+.custom-input input:hover,
+.custom-input input:focus {
+  background-color: rgba(91, 73, 89, 0.7) !important;
+}
