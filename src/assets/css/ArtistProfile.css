@@ -1,0 +1,48 @@
+.artist-songs-table .ant-table {
+    background-color: transparent !important;
+}
+
+.artist-songs-table .ant-table-thead > tr > th {
+    background-color: #2a1e32 !important;
+    color: #a0a0a0 !important;
+    border-bottom: 1px solid #3d2c4e !important;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.artist-songs-table .ant-table-tbody > tr > td {
+    border-bottom: 1px solid #3d2c4e !important;
+    color: #ffffff;
+}
+
+.artist-songs-table .ant-table-tbody > tr.ant-table-row:hover > td {
+    background-color: #342339 !important;
+}
+
+/* Style for the currently playing row */
+.artist-songs-table .ant-table-tbody > tr.bg-\[\#342339\] > td {
+    background-color: #342339 !important;
+    border-left: 3px solid #ff69b4 !important;
+}
+
+.artist-songs-table .ant-table-tbody > tr.bg-\[\#342339\]:hover > td {
+    background-color: #3d2c4e !important;
+}
+
+/* Animation for the sound icon */
+@keyframes pulse {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+
+.animate-pulse {
+    animation: pulse 1.5s infinite;
+}
