@@ -86,3 +86,8 @@ export const searchEngine = async (title, artist, genre, page = 1, limit = 10) =
     const response = await api.get('/api/songs/search', { params });
     return response.data;
 };
+
+export const deleteSong = async (id) => {
+    const response = api.delete(`/api/songs/${id}`)
+    return response.data
+}

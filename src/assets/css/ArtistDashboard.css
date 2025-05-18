@@ -166,3 +166,14 @@
 .spotify-modal .ant-form-item-label > label {
     color: #b3b3b3 !important;
 }
+/* Override modal confirm styles */
+.ant-modal-confirm-content,
+.ant-modal-confirm-title,
+.ant-modal-confirm-content > * {
+  color: white !important;
+}
+
+/* Also the buttons text color (optional) */
+.ant-modal-confirm-btns .ant-btn {
+  color: white !important;
+}

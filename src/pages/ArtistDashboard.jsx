@@ -16,12 +16,15 @@ import {
     Card,
     Skeleton,
     DatePicker,
+    Dropdown,
+    Popconfirm,
 } from 'antd';
 import {
     PlusOutlined,
     UploadOutlined,
     LoadingOutlined,
     PlayCircleFilled,
+    MoreOutlined,
 } from '@ant-design/icons';
 import {
     createSongArtist,
@@ -29,6 +32,7 @@ import {
     getSongByArtist,
     createAlbum,
     fetchArtistInfomation,
+    deleteSong,
 } from '../store/action/artistAction';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -226,6 +230,16 @@ const ArtistDashboard = () => {
             </div>
         );
     }
+    const handleDeleteSong = async (id) => {
+        try {
+            await deleteSong(id);
+            setSongs((prev) => prev.filter((song) => song._id !== id));
+            message.success('Song deleted');
+        } catch (error) {
+            console.error('Failed to delete song:', error);
+            message.error('Failed to delete song');
+        }
+    };
 
     return (
         <ConfigProvider theme={pinkTheme}>
@@ -286,50 +300,86 @@ const ArtistDashboard = () => {
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                                {songs.map((song) => (
-                                    <div
-                                        key={song?._id || song.id}
-                                        className="group cursor-pointer"
-                                        onClick={() =>
-                                            handleShowDetail(song?._id)
-                                        }
-                                    >
-                                        <div className="relative overflow-hidden rounded-lg aspect-square mb-3">
-                                            {song?.coverImage ? (
-                                                <img
-                                                    alt={
-                                                        song?.title ||
-                                                        'Untitled'
-                                                    }
-                                                    src={
-                                                        song.coverImage ||
-                                                        '/placeholder.svg'
-                                                    }
-                                                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                                                    crossOrigin="anonymous"
-                                                />
-                                            ) : (
-                                                <div className="h-full w-full bg-[#2c1e34] flex items-center justify-center">
-                                                    <p className="text-gray-400">
-                                                        No Cover
-                                                    </p>
+                                {songs.map((song) => {
+                                    const songId = song?._id || song.id;
+
+                                    const dropdownItems = [
+                                        {
+                                            key: 'delete',
+                                            label: (
+                                                <span
+                                                    className="text-red-500"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation(); // prevent triggering image click
+                                                        handleDeleteSong(songId);
+                                                    }}
+                                                >
+                                                    Delete
+                                                </span>
+                                            ),
+                                        },
+                                    ];
+
+                                    return (
+                                        <div key={songId} className="group cursor-pointer">
+                                            <div
+                                                className="relative rounded-lg aspect-square mb-3"
+                                                onClick={() => handleShowDetail(songId)}
+                                            >
+                                                {song?.coverImage ? (
+                                                    <img
+                                                        alt={song?.title || 'Untitled'}
+                                                        src={song.coverImage || '/placeholder.svg'}
+                                                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                                        crossOrigin="anonymous"
+                                                    />
+                                                ) : (
+                                                    <div className="h-full w-full bg-[#2c1e34] flex items-center justify-center">
+                                                        <p className="text-gray-400">No Cover</p>
+                                                    </div>
+                                                )}
+                                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                                    <PlayCircleFilled className="text-5xl text-[#ff1493] opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300" />
                                                 </div>
-                                            )}
-                                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                                <PlayCircleFilled className="text-5xl text-[#ff1493] opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300" />
+                                            </div>
+
+                                            <div className="px-1 flex items-center justify-between gap-2">
+                                                <h3 className="font-semibold text-white truncate group-hover:text-[#ff1493] transition-colors flex-1">
+                                                    {song?.title || 'Untitled'}
+                                                </h3>
+                                                <Dropdown
+                                                    menu={{ items: dropdownItems }}
+                                                    trigger={['click']}
+                                                    placement="bottomRight"
+                                                >
+
+                                                    <Popconfirm
+                                                        title="Delete this song? This action cannot be undone."
+                                                        okText="Delete"
+                                                        okType="danger"
+                                                        cancelText="Cancel"
+                                                        onConfirm={() => handleDeleteSong(songId)}
+                                                        onCancel={(e) => e.stopPropagation()}
+                                                        placement="bottomRight"
+                                                    >
+                                                        <MoreOutlined
+                                                            className="text-white hover:text-[#ff1493] cursor-pointer"
+                                                            onClick={(e) => e.stopPropagation()}
+                                                        />
+                                                    </Popconfirm>
+                                                </Dropdown>
+                                            </div>
+
+                                            <div className="px-1">
+                                                <p className="text-gray-400 text-sm truncate">
+                                                    {currentUser?.username || 'Unknown Artist'}
+                                                </p>
                                             </div>
                                         </div>
-                                        <div className="px-1">
-                                            <h3 className="font-semibold text-white truncate group-hover:text-[#ff1493] transition-colors">
-                                                {song?.title || 'Untitled'}
-                                            </h3>
-                                            <p className="text-gray-400 text-sm truncate">
-                                                {currentUser?.username ||
-                                                    'Unknown Artist'}
-                                            </p>
-                                        </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
+
+
                             </div>
                         )}
 
@@ -452,10 +502,10 @@ const ArtistDashboard = () => {
                                                         {hoveredAlbum ===
                                                             (album?._id ||
                                                                 album?.id) && (
-                                                            <div className="absolute bottom-2 right-2 transform transition-transform duration-300 translate-y-0 opacity-100">
-                                                                <PlayCircleFilled className="text-[#ff1694] text-4xl hover:text-[#ff4db2] cursor-pointer shadow-lg" />
-                                                            </div>
-                                                        )}
+                                                                <div className="absolute bottom-2 right-2 transform transition-transform duration-300 translate-y-0 opacity-100">
+                                                                    <PlayCircleFilled className="text-[#ff1694] text-4xl hover:text-[#ff4db2] cursor-pointer shadow-lg" />
+                                                                </div>
+                                                            )}
                                                     </div>
                                                     <div className="px-1">
                                                         <div className="px-1">
