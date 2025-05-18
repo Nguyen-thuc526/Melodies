@@ -1,0 +1,168 @@
+.custom-pagination .ant-pagination-item {
+    background-color: #2c1e34;
+    border-color: #3a2a45;
+}
+
+.custom-pagination .ant-pagination-item-active {
+    background-color: #ff1493;
+    border-color: #ff1493;
+}
+
+.custom-pagination .ant-pagination-item-active a {
+    color: white;
+}
+
+.custom-pagination .ant-pagination-item a {
+    color: #b3b3b3;
+}
+
+.custom-pagination .ant-pagination-prev button,
+.custom-pagination .ant-pagination-next button {
+    background-color: #2c1e34;
+    border-color: #3a2a45;
+    color: #b3b3b3;
+}
+
+/* Modal styling */
+.spotify-modal .ant-modal-content {
+    background-color: #231829;
+    border-radius: 12px;
+    border: 1px solid #3a2a45;
+}
+
+.spotify-modal .ant-modal-header {
+    background-color: #231829;
+    border-bottom: 1px solid #3a2a45;
+    border-radius: 12px 12px 0 0;
+}
+
+.spotify-modal .ant-modal-title {
+    color: white;
+}
+
+.spotify-modal .ant-modal-close {
+    color: #b3b3b3;
+}
+
+.spotify-modal .ant-modal-close:hover {
+    color: #ff1493;
+}
+
+/* Upload component styling */
+.upload-pink .ant-upload-list-item-card-actions-btn {
+    color: #b3b3b3;
+}
+
+.upload-pink .ant-upload-list-item-card-actions-btn:hover {
+    color: #ff1493;
+}
+
+.upload-pink .ant-upload-list-item-name {
+    color: white;
+}
+
+.upload-pink .ant-upload-list-item {
+    background-color: #2c1e34;
+    border-color: #3a2a45;
+}
+
+/* Form styling */
+.ant-form-item-label > label {
+    color: #b3b3b3 !important;
+}
+
+.ant-select-dropdown {
+    background-color: #2c1e34 !important;
+    border: 1px solid #3a2a45 !important;
+}
+
+.ant-select-item {
+    color: #b3b3b3 !important;
+}
+
+.ant-select-item-option-selected {
+    background-color: #3a2a45 !important;
+}
+
+.ant-select-item-option-active {
+    background-color: #3a2a45 !important;
+}
+/* Custom styles for Ant Design components */
+.ant-picker-dropdown
+    .ant-picker-cell-in-view.ant-picker-cell-selected
+    .ant-picker-cell-inner {
+    background-color: #ff1493 !important;
+}
+
+.ant-picker-dropdown
+    .ant-picker-cell-in-view.ant-picker-cell-today
+    .ant-picker-cell-inner::before {
+    border-color: #ff1493 !important;
+}
+
+.ant-picker-dropdown .ant-picker-header-view button:hover {
+    color: #ff1493 !important;
+}
+
+.ant-picker-dropdown .ant-picker-ranges .ant-picker-preset > .ant-tag-pink {
+    color: #ff1493 !important;
+    background: #2c1e34 !important;
+    border-color: #ff1493 !important;
+}
+
+.ant-picker:hover,
+.ant-picker-focused {
+    border-color: #ff1493 !important;
+}
+
+.ant-upload-list-item-card-actions .ant-btn {
+    color: #ff1493 !important;
+}
+
+.ant-upload-list-item-name {
+    color: white !important;
+}
+
+.ant-upload-list-item {
+    background-color: #2c1e34 !important;
+    border-color: #3a2a45 !important;
+}
+
+.ant-upload-list-item-thumbnail img {
+    object-fit: cover !important;
+}
+
+.ant-upload-picture-card-wrapper .ant-upload.ant-upload-select {
+    background-color: #2c1e34 !important;
+    border-color: #3a2a45 !important;
+}
+
+.ant-upload-picture-card-wrapper .ant-upload.ant-upload-select:hover {
+    border-color: #ff1493 !important;
+}
+
+.spotify-modal .ant-modal-content {
+    background-color: #2c1e34 !important;
+    border: 1px solid #3a2a45 !important;
+}
+
+.spotify-modal .ant-modal-header {
+    background-color: #2c1e34 !important;
+    border-bottom: 1px solid #3a2a45 !important;
+}
+
+.spotify-modal .ant-modal-title {
+    color: white !important;
+}
+
+.spotify-modal .ant-modal-close {
+    color: white !important;
+}
+
+.spotify-modal .ant-modal-close:hover {
+    color: #ff1493 !important;
+}
+
+.spotify-modal .ant-form-item-label > label {
+    color: #b3b3b3 !important;
+}

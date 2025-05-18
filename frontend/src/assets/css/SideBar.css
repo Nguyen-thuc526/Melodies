@@ -1,0 +1,44 @@
+/* Custom styles to override Ant Design defaults */
+
+/* Override Ant Design menu background */
+.ant-menu.ant-menu-dark {
+    background: transparent !important;
+}
+
+/* Override Ant Design menu item styles */
+.ant-menu-dark .ant-menu-item-selected {
+    background-color: rgba(
+        139,
+        92,
+        246,
+        0.2
+    ) !important; /* purple-500 with opacity */
+}
+
+/* Add hover effect to menu items */
+.ant-menu-dark .ant-menu-item:hover:not(.ant-menu-item-selected) {
+    background-color: rgba(139, 92, 246, 0.1) !important;
+}
+
+/* Custom scrollbar for the sidebar */
+.ant-layout-sider::-webkit-scrollbar {
+    width: 4px;
+}
+
+.ant-layout-sider::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.ant-layout-sider::-webkit-scrollbar-thumb {
+    background-color: rgba(139, 92, 246, 0.5);
+    border-radius: 20px;
+}
+
+/* Add subtle animation to menu items */
+.ant-menu-item {
+    transition: all 0.3s ease !important;
+}
+
+.ant-menu-item:hover {
+    transform: translateX(4px);
+}

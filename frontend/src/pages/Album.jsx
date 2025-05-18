@@ -1,230 +1,214 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Layout, Typography, List, Avatar, Button, Row, Col, Card, ConfigProvider } from "antd"
+import { useEffect, useState } from 'react';
 import {
-  ArrowLeftOutlined,
-  PlayCircleFilled,
-  HeartOutlined,
-  MoreOutlined,
-} from "@ant-design/icons"
+    Layout,
+    Typography,
+    List,
+    Avatar,
+    Button,
+    ConfigProvider,
+    message,
+    theme,
+} from 'antd';
+import {
+    ArrowLeftOutlined,
+    PlayCircleFilled,
+    HeartOutlined,
+    MoreOutlined,
+} from '@ant-design/icons';
+import { getTrendingSongs } from '../store/action/userAction';
+import HoverPlayButton from '../components/HoverPlayButton';
 
-const { Header, Content } = Layout
-const { Title, Text } = Typography
+const { Header, Content } = Layout;
+const { Title, Text } = Typography;
 
-const Album = () => {
-  const [songs] = useState([
-    { id: 1, title: "Sorfeore", artist: "The Neighborhood", releaseDate: "Nov 4, 2023", album: "Hard to Imagine Neighbourhood Ever Changing", duration: "3:26", liked: false },
-    { id: 2, title: "Skyfall Beats", artist: "Skyfall", releaseDate: "Oct 26, 2023", album: "nightmares", duration: "2:45", liked: false },
-    { id: 3, title: "Greedy", artist: "Tate McRae", releaseDate: "Nov 30, 2023", album: "Greedy", duration: "2:13", liked: false },
-    { id: 4, title: "Lovin On me", artist: "Jack Harlow", releaseDate: "Dec 15, 2023", album: "Lovin On me", duration: "2:18", liked: false },
-    { id: 5, title: "pain the town red", artist: "Doja Cat", releaseDate: "Dec 29, 2023", album: "Paint The Town Red", duration: "3:51", liked: false },
-    { id: 6, title: "Dancin On Night", artist: "Charli XCX", releaseDate: "May 27, 2023", album: "Dance The Night (From Barbie Movie)", duration: "2:56", liked: false },
-    { id: 7, title: "Water", artist: "Tyla", releaseDate: "Oct 21, 2023", album: "Water", duration: "3:20", liked: false },
-    { id: 8, title: "Push your limits", artist: "Charli XCX", releaseDate: "Jan 2, 2024", album: "Push your limits", duration: "2:24", liked: false },
-    { id: 9, title: "Houdini", artist: "Dua Lipa", releaseDate: "Dec 13, 2023", album: "Houdini", duration: "3:05", liked: false },
-    { id: 10, title: "Lala", artist: "Myke Towers", releaseDate: "Nov 20, 2023", album: "La vida es una", duration: "3:17", liked: false },
-    { id: 11, title: "I Wanna Be Yours", artist: "Arctic Monkeys", releaseDate: "Sep 5, 2023", album: "AM", duration: "3:03", liked: false },
-    { id: 12, title: "Paradise", artist: "Coldplay", releaseDate: "Jul 5, 2023", album: "Paradise", duration: "3:30", liked: false },
-    { id: 13, title: "As It Was", artist: "Harry Styles", releaseDate: "Sep 14, 2022", album: "As It Was", duration: "2:47", liked: false },
-    { id: 14, title: "Another Love", artist: "Tom Odell", releaseDate: "Dec 19, 2013", album: "Another Love", duration: "4:06", liked: false },
-    { id: 15, title: "Daylight", artist: "David Kushner", releaseDate: "Jul 14, 2022", album: "Daylight", duration: "3:32", liked: false },
-    { id: 16, title: "Beggin", artist: "Måneskin", releaseDate: "Feb 27, 2017", album: "Chosen", duration: "3:31", liked: false },
-    { id: 17, title: "What Was I Made For", artist: "Billie Eilish", releaseDate: "Sep 5, 2023", album: "What Was I Made For", duration: "3:42", liked: false },
-    { id: 18, title: "Daddy Issues", artist: "The Neighbourhood", releaseDate: "Aug 21, 2015", album: "Wiped out!", duration: "4:20", liked: false },
-    { id: 19, title: "Rolling In The Deep", artist: "Adele", releaseDate: "Jan 5, 2011", album: "Adele 21", duration: "3:48", liked: false },
-    { id: 20, title: "Oneshot", artist: "Offset", releaseDate: "Dec 14, 2023", album: "Toca Donda", duration: "3:15", liked: false },
-  ])
+export default function Album() {
+    const [trendingSongs, setTrendingSongs] = useState([]);
+    const [trendingLoading, setTrendingLoading] = useState(true);
+    const { defaultAlgorithm, darkAlgorithm } = theme;
 
-  return (
-    <ConfigProvider
-      theme={{
-        token: {
-          colorPrimary: "#ff1f9c",
-          colorSuccess: "#33b1ff",
-          colorTextBase: "#FFFFFF",
-          colorBorder: "rgba(255, 31, 156, 0.3)",
-          borderRadius: 24,
-        },
-        components: {
-          Card: {
-            boxShadow: "0 10px 30px rgba(0,0,0,0.4), 0 0 20px rgba(255, 31, 156, 0.15)",
-            colorBgContainer: "transparent",
-          },
-          Button: {
-            defaultBg: "linear-gradient(135deg, #ff1f9c 0%, #ff4db2 100%)",
-            defaultColor: "#FFFFFF",
-          },
-          List: {
-            colorBgContainer: "transparent",
-            itemPadding: "6px 20px", // Reduce padding between list items
-          },
-        },
-      }}
-    >
-      <Layout style={{ minHeight: "100vh", background: "linear-gradient(135deg, #1a1221 0%, #2D1F31 100%)" }}>
-        <Header
-          style={{
-            background: "transparent",
-            padding: "10px 20px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Button type="text" icon={<ArrowLeftOutlined />} style={{ color: "#FFFFFF", fontSize: "20px" }} />
-          <div>
-            <Button type="text" style={{ color: "rgba(255, 255, 255, 0.9)" }}>Share</Button>
-            <Button type="text" style={{ color: "rgba(255, 255, 255, 0.9)" }}>About</Button>
-            <Button type="text" style={{ color: "rgba(255, 255, 255, 0.9)" }}>Premium</Button>
-            <Avatar style={{ marginLeft: "10px", background: "linear-gradient(135deg, #ff1f9c 0%, #ff4db2 100%)" }}>
-              U
-            </Avatar>
-          </div>
-        </Header>
+    const formatDuration = (seconds) => {
+        const minutes = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+    };
+    const getTotalDuration = (songs) => {
+        const totalSeconds = songs
+            .slice(0, 10)
+            .reduce((sum, song) => sum + (Number(song.duration) || 0), 0);
 
-        <Content style={{ padding: "0 20px" }}>
-          <div style={{ display: "flex", alignItems: "flex-start", padding: "20px 0" }}>
-            <Card
-              style={{
-                width: 150,
-                height: 150,
-                marginRight: 20,
-                overflow: "hidden",
-                borderRadius: 24,
-                background: "linear-gradient(135deg, #3d2a3a 0%, #4d3649 100%)",
-                border: "none",
-              }}
-              cover={
-                <div style={{ position: "relative", height: "100%" }}>
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 10,
-                      left: 10,
-                      color: "#FFFFFF",
-                      fontWeight: "bold",
-                      textShadow: "0 0 10px rgba(255, 31, 156, 0.5)",
-                    }}
-                  >
-                    TRENDING
-                    <br />
-                    MUSIC
-                  </div>
-                  <img
-                    alt="trending music"
-                    src="/placeholder.svg?height=150&width=150"
-                    style={{ position: "absolute", bottom: 0, right: 0, width: "70%", height: "auto" }}
-                  />
-                </div>
-              }
-            />
-            <div>
-              <Title
-                level={2}
-                style={{
-                  color: "#FFFFFF",
-                  margin: 0,
-                  textShadow: "0 0 10px rgba(255, 31, 156, 0.5)",
-                }}
-              >
-                Trending songs <span style={{ color: "#ff1f9c" }}>mix</span>
-              </Title>
-              <Text style={{ color: "rgba(255, 255, 255, 0.9)", display: "block", marginTop: 10 }}>
-                tate mcrae, nightmares, the neighborhood,
-                <br />
-                doja cat and ...
-              </Text>
-              <div style={{ display: "flex", alignItems: "center", marginTop: 20 }}>
-                <Text style={{ color: "rgba(255, 255, 255, 0.9)", marginRight: 20 }}>20 songs</Text>
-                <Text style={{ color: "rgba(255, 255, 255, 0.9)" }}>1h 36m</Text>
-                <Button
-                  type="primary"
-                  style={{
-                    marginLeft: "auto",
-                    borderRadius: "24px",
-                    boxShadow: "0 0 20px rgba(255, 31, 156, 0.3)",
-                  }}
-                >
-                  Play All <PlayCircleFilled style={{ marginLeft: 5, fontSize: 18 }} />
-                </Button>
-              </div>
-            </div>
-          </div>
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
 
-          <div
-            style={{
-              background: "linear-gradient(135deg, #3d2a3a 0%, #4d3649 100%)",
-              borderRadius: "24px",
-              marginTop: "20px",
-              boxShadow: "0 10px 30px rgba(0,0,0,0.4), 0 0 20px rgba(255, 31, 156, 0.15)",
+        const pad = (n) => String(n).padStart(2, '0');
+
+        if (hours > 0) {
+            return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+        } else {
+            return `${pad(minutes)}:${pad(seconds)}`;
+        }
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-EN', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        });
+    };
+
+    useEffect(() => {
+        const fetchTrendingSongs = async () => {
+            setTrendingLoading(true);
+            try {
+                const data = await getTrendingSongs();
+                setTrendingSongs(data.data);
+            } catch (err) {
+                console.error('Error fetching trending songs:', err);
+                message.error(
+                    'Failed to load trending songs. Please try again later.'
+                );
+            } finally {
+                setTrendingLoading(false);
+            }
+        };
+
+        fetchTrendingSongs();
+    }, []);
+
+    return (
+        <ConfigProvider
+            theme={{
+                algorithm: darkAlgorithm,
+                token: {
+                    colorPrimary: '#ff1f9c',
+                    colorSuccess: '#33b1ff',
+                    borderRadius: 16,
+                },
             }}
-          >
-            <Row
-  style={{
-    padding: "10px 20px",
-    borderBottom: "1px solid rgba(255, 31, 156, 0.3)",
-    color: "#FFFFFF",
-  }}
->
-  <Col span={2}>#</Col>
-  <Col span={6}>Title</Col>
-  <Col span={6}>Release Date</Col>
-  <Col span={5}>Album</Col>
-  <Col span={1}>Time</Col> {/* Điều chỉnh lại số span để khớp */}
-</Row>
+        >
+            <div className="min-h-screen bg-gradient-to-br from-[#1a1221] to-[#2D1F31]">
+                <Content className="px-4 md:px-8 pb-20">
+                    <div className="flex flex-col md:flex-row items-start gap-6 py-6">
+                        <div className="relative w-[150px] h-[150px] md:w-[180px] md:h-[180px] overflow-hidden rounded-2xl shadow-xl group cursor-pointer">
+                            <div className="absolute inset-0 bg-gradient-to-br from-[#3d2a3a] to-[#4d3649] group-hover:from-[#4d3649] group-hover:to-[#5d465a] transition-all duration-300"></div>
 
-            <List
-              dataSource={songs}
-              renderItem={(item, index) => (
-                <List.Item
-                  key={item.id}
-                  style={{
-                    padding: "6px 20px", // Reduced padding to shorten row height
-                    borderBottom: "1px solid rgba(255, 31, 156, 0.3)",
-                    minHeight: "auto", // Ensure no extra height
-                  }}
-                  actions={[
-                    <HeartOutlined key="heart" style={{ color: "rgba(255, 255, 255, 0.9)", fontSize: 16 }} />,
-                    <MoreOutlined key="more" style={{ color: "rgba(255, 255, 255, 0.9)", fontSize: 16 }} />,
-                  ]}
-                >
-                  <Row style={{ width: "100%", alignItems: "center" }}>
-                    <Col span={1} style={{ color: "#FFFFFF" }}>
-                      {index + 1}
-                    </Col>
-                    <Col span={8}>
-                      <div style={{ display: "flex", alignItems: "center" }}>
-                        <Avatar
-                          shape="square"
-                          size={32} // Reduced size for tighter spacing
-                          src={`/placeholder.svg?height=32&width=32`}
-                          style={{ borderRadius: "8px", border: "1px solid rgba(255, 31, 156, 0.3)" }}
-                        />
-                        <div style={{ marginLeft: 8 }}>
-                          <Text style={{ color: "#FFFFFF", display: "block" }}>{item.title}</Text>
-                          <Text style={{ color: "rgba(255, 255, 255, 0.7)", fontSize: 12 }}>{item.artist}</Text>
+                            <div className="absolute top-4 left-4 font-bold text-white text-shadow z-10">
+                                TRENDING
+                                <br />
+                                MUSIC
+                            </div>
+
+                            <img
+                                alt="trending music"
+                                src="/trend.jpg"
+                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                            />
+
+                            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <PlayCircleFilled className="text-white text-5xl opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-90 group-hover:scale-100" />
+                            </div>
                         </div>
-                      </div>
-                    </Col>
-                    <Col span={5} style={{ color: "rgba(255, 255, 255, 0.7)" }}>
-                      {item.releaseDate}
-                    </Col>
-                    <Col span={6} style={{ color: "rgba(255, 255, 255, 0.7)" }}>
-                      {item.album}
-                    </Col>
-                    <Col span={4} style={{ color: "rgba(255, 255, 255, 0.7)" }}>
-                      {item.duration}
-                    </Col>
-                  </Row>
-                </List.Item>
-              )}
-            />
-          </div>
-        </Content>
-      </Layout>
-    </ConfigProvider>
-  )
-}
 
-export default Album
+                        <div className="flex-1">
+                            <h1 className="text-3xl md:text-4xl font-bold text-white m-0 drop-shadow-glow">
+                                Trending songs{' '}
+                                <span className="text-[#ff1f9c]">mix</span>
+                            </h1>
+                            <p className="text-white/90 mt-3 max-w-2xl">
+                                Fresh, viral, and unmissable — these are the
+                                tracks everyone's playing. Explore the sounds
+                                defining today's music culture.
+                            </p>
+                            <div className="flex flex-wrap items-center gap-4 mt-6">
+                                <span className="text-white/90">
+                                    {trendingSongs.length} songs
+                                </span>
+                                <span className="text-white/90">
+                                    {getTotalDuration(trendingSongs)}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="mt-8 rounded-2xl overflow-hidden bg-gradient-to-br from-[#3d2a3a]/90 to-[#4d3649]/90 backdrop-blur-sm shadow-2xl border border-[#ff1f9c]/20">
+                        <div className="grid grid-cols-12 px-4 py-3 border-b border-[#ff1f9c]/30 text-white/80 text-sm font-medium">
+                            <div className="col-span-1">#</div>
+                            <div className="col-span-4 ">Title</div>
+                            <div className="col-span-3 hidden md:block ml-[50px]">
+                                Release Date
+                            </div>
+                            <div className="col-span-2 hidden md:block ml-[35px]">
+                                Genre
+                            </div>
+                            <div className="col-span-1 text-right md:text-left ml-[20px]">
+                                Time
+                            </div>
+                        </div>
+
+                        <List
+                            loading={trendingLoading}
+                            dataSource={trendingSongs}
+                            renderItem={(item, index) => (
+                                <List.Item
+                                    key={item._id}
+                                    className="border-b border-[#ff1f9c]/20 hover:bg-white/5 transition-colors duration-200 px-4 py-2"
+                                    actions={[
+                                        <HeartOutlined
+                                            key="heart"
+                                            className="text-white/70 hover:text-[#ff1f9c] transition-colors duration-200"
+                                        />,
+                                        <MoreOutlined
+                                            key="more"
+                                            className="text-white/70 hover:text-white transition-colors duration-200"
+                                        />,
+                                    ]}
+                                >
+                                    <div className="grid grid-cols-12 w-full items-center">
+                                        <div className="col-span-1 flex items-center">
+                                            <HoverPlayButton
+                                                index={index + 1}
+                                                audioUrl={item.audioUrl}
+                                            />
+                                        </div>
+                                        <div className="col-span-5">
+                                            <div className="flex items-center gap-3">
+                                                <Avatar
+                                                    shape="square"
+                                                    size={40}
+                                                    src={item.coverImage}
+                                                    className="rounded-lg border border-[#ff1f9c]/30 shadow-sm"
+                                                />
+                                                <div>
+                                                    <div className="font-medium text-white truncate max-w-[200px] md:max-w-none">
+                                                        {item.title}
+                                                    </div>
+                                                    <div className="text-white/70 text-xs">
+                                                        {item.artist.username}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-span-3 text-white/70 hidden md:block">
+                                            {formatDate(item.releaseDate)}
+                                        </div>
+                                        <div className="col-span-2 text-white/70 hidden md:block">
+                                            {item.genre}
+                                        </div>
+                                        <div className="col-span-1 text-white/70 text-right md:text-left">
+                                            {formatDuration(item.duration)}
+                                        </div>
+                                    </div>
+                                </List.Item>
+                            )}
+                        />
+                    </div>
+                    <div style={{ margin: '100px' }}></div>
+                </Content>
+            </div>
+        </ConfigProvider>
+    );
+}

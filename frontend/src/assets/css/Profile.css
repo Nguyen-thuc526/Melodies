@@ -1,0 +1,31 @@
+.custom-date-picker input {
+    color: white;
+    background-color: #2c1e36;
+}
+
+.custom-date-picker:hover input {
+    background-color: #231829;
+}
+
+.ant-picker-panel {
+    background-color: #2c1e36 !important;
+    color: white;
+}
+
+.ant-picker-cell-in-view {
+    color: white;
+}
+
+.ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
+.ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner {
+    background-color: #5b4959;
+    color: white;
+}
+
+.ant-picker-dropdown {
+    background-color: #2c1e36;
+}
+
+.ant-picker-input > input::placeholder {
+    color: #ccc;
+}

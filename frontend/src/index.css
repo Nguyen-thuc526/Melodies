@@ -28,10 +28,10 @@ body {
     transition: all 0.3s ease;
 }
 
-.ant-card:hover {
+/* .ant-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+} */
 
 .ant-btn {
     border-radius: 6px;
@@ -49,21 +49,21 @@ body {
 .ant-input,
 .ant-input-password,
 .ant-input-affix-wrapper {
-  color: white !important;
-  background-color: rgba(91, 73, 89, 0.7) !important;
+    color: white !important;
+    background-color: rgba(91, 73, 89, 0.7) !important;
 }
 
 .ant-input input,
 .ant-input-password input {
-  color: white !important;
-  background-color: rgba(91, 73, 89, 0.7) !important;
+    color: white !important;
+    background-color: rgba(91, 73, 89, 0.7) !important;
 }
 
 .ant-input::placeholder,
 .ant-input-password::placeholder,
 .ant-input input::placeholder,
 .ant-input-password input::placeholder {
-  color: rgba(255, 255, 255, 0.5) !important;
+    color: rgba(255, 255, 255, 0.5) !important;
 }
 
 .ant-input:hover,
@@ -72,14 +72,14 @@ body {
 .ant-input-password:focus,
 .ant-input-affix-wrapper:hover,
 .ant-input-affix-wrapper:focus {
-  background-color: rgba(91, 73, 89, 0.7) !important;
+    background-color: rgba(91, 73, 89, 0.7) !important;
 }
 
 .ant-input input:hover,
 .ant-input input:focus,
 .ant-input-password input:hover,
 .ant-input-password input:focus {
-  background-color: rgba(91, 73, 89, 0.7) !important;
+    background-color: rgba(91, 73, 89, 0.7) !important;
 }
 
 /* Override autocomplete styles */
@@ -89,9 +89,9 @@ body {
 .ant-input-password:-webkit-autofill,
 .ant-input-password:-webkit-autofill:hover,
 .ant-input-password:-webkit-autofill:focus {
-  -webkit-text-fill-color: white !important;
-  -webkit-box-shadow: 0 0 0px 1000px rgba(91, 73, 89, 0.7) inset !important;
-  transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: white !important;
+    -webkit-box-shadow: 0 0 0px 1000px rgba(91, 73, 89, 0.7) inset !important;
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 .ant-input input:-webkit-autofill,
@@ -100,48 +100,110 @@ body {
 .ant-input-password input:-webkit-autofill,
 .ant-input-password input:-webkit-autofill:hover,
 .ant-input-password input:-webkit-autofill:focus {
-  -webkit-text-fill-color: white !important;
-  -webkit-box-shadow: 0 0 0px 1000px rgba(91, 73, 89, 0.7) inset !important;
-  transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: white !important;
+    -webkit-box-shadow: 0 0 0px 1000px rgba(91, 73, 89, 0.7) inset !important;
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 /* Override Formik input styles */
 .formik-field input {
-  color: white !important;
-  background-color: rgba(91, 73, 89, 0.7) !important;
+    color: white !important;
+    background-color: rgba(91, 73, 89, 0.7) !important;
 }
 
 .formik-field input::placeholder {
-  color: rgba(255, 255, 255, 0.5) !important;
+    color: rgba(255, 255, 255, 0.5) !important;
 }
 
 .formik-field input:hover,
 .formik-field input:focus {
-  background-color: rgba(91, 73, 89, 0.7) !important;
+    background-color: rgba(91, 73, 89, 0.7) !important;
 }
 
 /* Custom input styles */
 .custom-input {
-  color: white !important;
-  background-color: rgba(91, 73, 89, 0.7) !important;
+    color: white !important;
+    background-color: rgba(91, 73, 89, 0.7) !important;
 }
 
 .custom-input input {
-  color: white !important;
-  background-color: rgba(91, 73, 89, 0.7) !important;
+    color: white !important;
+    background-color: rgba(91, 73, 89, 0.7) !important;
 }
 
 .custom-input input::placeholder {
-  color: rgba(255, 255, 255, 0.5) !important;
+    color: rgba(255, 255, 255, 0.5) !important;
 }
 
 .custom-input:hover,
 .custom-input:focus,
 .custom-input:focus-within {
-  background-color: rgba(91, 73, 89, 0.7) !important;
+    background-color: rgba(91, 73, 89, 0.7) !important;
 }
 
 .custom-input input:hover,
 .custom-input input:focus {
-  background-color: rgba(91, 73, 89, 0.7) !important;
+    background-color: rgba(91, 73, 89, 0.7) !important;
+}
+
+:root {
+    --antd-primary: #5b4959;
+    --antd-primary-hover: #6d5a6b;
+    --antd-primary-active: #4e3e50;
+}
+
+/* Primary button override */
+.ant-btn-primary {
+    background-color: var(--antd-primary) !important;
+    border-color: var(--antd-primary) !important;
+    color: #fff !important;
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+    background-color: var(--antd-primary-hover) !important;
+    border-color: var(--antd-primary-hover) !important;
+    color: #fff !important;
+}
+
+.ant-btn-primary:active {
+    background-color: var(--antd-primary-active) !important;
+    border-color: var(--antd-primary-active) !important;
+    color: #fff !important;
+}
+
+/* Default button override (outline style) */
+.ant-btn-default {
+    color: #fff !important;
+    border-color: var(--antd-primary) !important;
+    background-color: transparent !important;
+}
+
+.ant-btn-default:hover,
+.ant-btn-default:focus {
+    color: #fff !important;
+    background-color: var(--antd-primary) !important;
+    border-color: var(--antd-primary) !important;
+}
+
+.ant-btn-default:active {
+    background-color: var(--antd-primary-active) !important;
+    border-color: var(--antd-primary-active) !important;
+}
+
+/* Text buttons (icon buttons etc.) */
+.ant-btn-text,
+.ant-btn-link {
+    color: rgba(255, 255, 255, 0.65) !important;
+}
+
+.ant-btn-text:hover,
+.ant-btn-link:hover {
+    color: #fff !important;
+    background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.ant-btn-text:active,
+.ant-btn-link:active {
+    background-color: rgba(255, 255, 255, 0.15) !important;
 }
