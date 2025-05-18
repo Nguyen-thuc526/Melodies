@@ -420,45 +420,50 @@ const Home = () => {
                             </Button>
                         </div>
 
-                        <Row gutter={[24, 24]}>
+                        <Row
+                            gutter={[24, 24]}
+                            justify="left"   
+                            align="left"       // Vertically centers the items inside the row
+                        >
                             {artists?.map((artist) => (
-                                <Col xs={8} sm={6} md={4} key={artist._id}>
+                                <Col
+                                    xs={12} sm={8} md={6} lg={4} xl={3} // Adjust columns for better responsive centering
+                                    key={artist._id}
+                                    style={{ display: 'flex', justifyContent: 'center' }} // centers each card inside the column
+                                >
                                     <div className="transform transition-transform duration-300 hover:scale-105 hover:shadow-lg rounded-md cursor-pointer">
                                         <Card
                                             style={styles.artistCard}
                                             bodyStyle={{
                                                 color: 'white',
                                                 padding: '8px 0',
+                                                textAlign: 'center',  // center text inside Card Meta
                                             }}
                                         >
                                             <img
                                                 src={artist.profileImage}
                                                 alt={artist.stageName}
-                                                className="w-[100px] h-[100px] rounded-full object-cover border border-blue-500"
+                                                className="w-[100px] h-[100px] rounded-full object-cover border border-blue-500 mx-auto"
                                             />
                                             <Meta
                                                 title={
                                                     <Text
                                                         onClick={() =>
-                                                            navigate(
-                                                                `/artist-profile/${artist._id}`
-                                                            )
+                                                            navigate(`/artist-profile/${artist._id}`)
                                                         }
-                                                        style={
-                                                            styles.artistName
-                                                        }
+                                                        style={styles.artistName}
                                                     >
-                                                        {artist.stageName ||
-                                                            artist.username}
+                                                        {artist.stageName || artist.username}
                                                     </Text>
                                                 }
-                                                style={{ marginTop: 8 }}
+                                                style={{ marginTop: 8, textAlign: 'center' }}
                                             />
                                         </Card>
                                     </div>
                                 </Col>
                             ))}
                         </Row>
+
                     </div>
                     <div style={{ marginBottom: 40, marginTop: '40px' }}>
                         <div style={styles.sectionTitle}>
