@@ -381,7 +381,7 @@ const Navbar = () => {
                                     padding: 10
                                 }}
                                 onClick={() => {
-                                    navigate(`/song-detail//${item._id}`);
+                                    navigate(`/song-detail/${item._id}`);
                                     handleCloseModal();
                                 }}
                             >
